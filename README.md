@@ -1,4 +1,4 @@
-# Web-cache (Furniture store)
+# Caché (Furniture store)
 
 This project was developed for an online store with the support of a hierarchical DBMS produced by InterSystems, positioned by the manufacturer as a multi-model.
 
