@@ -11,7 +11,7 @@ Most of the project was built on the built-in programming language Caché Object
   - Catalog
   - News blog
 
-The development took quite a long time (2-4 weeks xd).  As [Rishat7c] writes on the [Vk.com][df1]
+The development took quite a long time (2-4 weeks xd).  As [Rishat7c] writes on the [Vk.com]
 
 ![Иллюстрация к проекту](https://pp.userapi.com/c837332/v837332286/4a913/4HrHj2IK9yo.jpg)
 
