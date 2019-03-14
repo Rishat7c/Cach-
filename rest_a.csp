@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ru" ng-app>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>REST Academy</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+<script language="javascript">
+function ctrl($scope,$http) {
+	// Запрос GET к REST web API
+	    $scope.getCompanies=function() {
+        $http.get("/rest/json/companies").success(function(data) {
+	         // Помещаем ответ сервера в переменную companies
+            $scope.companies=data.children; 
+        }).error(function(data, status) {
+	             // Вывод информации об ошибке, если таковая возникнет
+            alert("["+status+"] Ошибка при загрузки компаний! ["+data+"]");
+        });
+    };
+   
+   	// Создать новую компанию
+	$scope.create = function (company){ 
+	   $http.post("/rest/json/company",company) 
+	   .success(function(data){$scope.getCompanies();$scope.alertzone="Добавили компанию "+company.Name;}).error(function(data,status){
+		$scope.alertzone="["+status+"] Ошибка добавления компании :( ["+data+"]"; });
+	}  
+
+	// Обновить существующую компанию
+   $scope.update = function (company){
+	   $http.put("/rest/json/company/"+company.ID,company)
+		.success(function(data){$scope.alertzone="Обновили компанию "+company.Name;}).error(function(data,status){ // поменял alert(....); на alertzone
+		$scope.alertzone="["+status+"] Ошибка обновления имени компании :( ["+data+"]"; });
+	}    
+		    
+	// Удалить компанию
+	$scope.delete = function (company){
+		$http.delete("/rest/json/company/"+company.ID)
+		.success(function(data){$scope.getCompanies();$scope.alertzone="Удалили компанию "+company.Name;}).error(function(data,status){
+			$scope.alertzone="["+status+"] Ошибка удаления компании :( ["+data+"]"; });
+	}      
+};
+</script>
+</head>
+<body ng-controller="ctrl" ng-init="getCompanies();">
+	<div id="object_sub" class="not_display">
+	<h4 ng-model="alertzone"><font color=red>{{alertzone}}</font></h4>
+	<form class="form-inline" name="objCreateForm" ng-model="object" ng-submit="create(object); object='';">
+    <input type="text" class="form-control" ng-model="object.Object" placeholder="Добавить товар"/>
+    <input type="text" class="form-control" ng-model="object.DataAdd" placeholder="Data"/>
+    <input type="text" class="form-control" ng-model="object.DataEnd" placeholder="Data"/>
+    <input type="submit" class="btn btn-success" value="Добавить"/>
+	</form>
+	<div ng-repeat="object in objects">
+	<form name="objForm" ng-submit="update(object); objForm.$setPristine();">
+	<table class="table">
+    	<tr>
+    		<td><center><input type="submit" class="btn btn-info" value="V" ng-show="objForm.$dirty"/></center></td>
+    		<td><input type="text" ng-model="object.Object"/></td>
+    		<td><input type="text" ng-model="object.DataAdd"/></td>
+    		<td><input type="text" ng-model="object.DataEnd"/></td>
+    		<td><center><input type="button" class="btn btn-danger" value="X" ng-click="delete(object);"/></center></td>
+    	</tr>
+	</form>
+    </table>
+    </form>
+	</div>
+	</div>
+</body>
+</html>
